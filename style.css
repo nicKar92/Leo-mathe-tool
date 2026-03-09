@@ -644,94 +644,67 @@ button {
   margin: 10px 0 14px;
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 28px rgba(0,0,0,0.6);
 }
 
 .hamburg-map {
   width: 100%;
   height: auto;
   display: block;
-  background: transparent;
 }
 
-/* Ocean/background */
-.map-backdrop {
-  fill: #07090f;
-}
+.map-ocean  { fill: #07090f; }
+.map-land   { fill: #141d30; }
 
-/* City land base (visible where no zone fills) */
-.map-land {
-  fill: rgba(30, 38, 60, 0.6);
-  stroke: none;
-}
-
-/* Clean city boundary stroke (renders on top) */
-.map-outline {
+.map-border {
   fill: none;
-  stroke: rgba(6, 182, 212, 0.8);
+  stroke: rgba(45, 212, 191, 0.8);
   stroke-width: 2.5;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 6px rgba(6,182,212,0.5));
+  filter: drop-shadow(0 0 5px rgba(45,212,191,0.45));
 }
 
-/* District zones */
 .map-zone {
-  stroke: rgba(255,255,255,0.18);
+  stroke: rgba(255,255,255,0.2);
   stroke-width: 1.5;
   stroke-linejoin: round;
   transition: fill 220ms ease, filter 220ms ease;
 }
-/* 0 stars – unexplored, grey */
-.map-zone.zone-0 { fill: rgba(55, 65, 90, 0.75); }
-/* 1 star – started, blue */
-.map-zone.zone-1 { fill: rgba(59, 113, 183, 0.80); }
-/* 2 stars – progressing, teal */
-.map-zone.zone-2 { fill: rgba(20, 158, 174, 0.82); }
-/* 3 stars – conquered, amber glow */
+.map-zone.zone-0 { fill: rgba(50,62,94,0.78); }
+.map-zone.zone-1 { fill: rgba(37,102,168,0.82); }
+.map-zone.zone-2 { fill: rgba(16,148,162,0.84); }
 .map-zone.zone-3 {
-  fill: rgba(234, 148, 30, 0.88);
-  stroke: rgba(245,200,80, 0.9);
-  filter: drop-shadow(0 0 8px rgba(234,148,30,0.6));
+  fill: rgba(230,145,28,0.90);
+  stroke: rgba(245,200,80,0.88);
+  filter: drop-shadow(0 0 8px rgba(230,145,28,0.55));
 }
-/* Tap-selected zone */
-.map-zone.zone-selected {
-  stroke: rgba(255,255,255,0.9);
-  stroke-width: 3;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.4));
+.map-zone.zone-sel {
+  stroke: rgba(255,255,255,0.85);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
 }
 
-/* Elbe river */
-.map-river {
-  fill: rgba(14, 80, 140, 0.78);
-  stroke: rgba(90, 160, 220, 0.4);
+.map-elbe {
+  fill: rgba(12,58,120,0.88);
+  stroke: rgba(70,150,215,0.3);
   stroke-width: 1;
 }
 
-/* Alster lakes */
 .map-alster {
-  fill: rgba(22, 105, 178, 0.85);
-  stroke: rgba(90, 170, 240, 0.5);
+  fill: rgba(16,80,150,0.92);
+  stroke: rgba(70,160,235,0.45);
   stroke-width: 1;
-  filter: drop-shadow(0 0 4px rgba(22,105,178,0.6));
+  filter: drop-shadow(0 0 4px rgba(16,80,150,0.5));
 }
 
-/* Name tag background */
-.map-tag-bg {
-  fill: rgba(8, 12, 24, 0.72);
-  stroke: rgba(255,255,255,0.12);
-  stroke-width: 1;
+.map-tag {
+  fill: rgba(4,7,18,0.74);
+  stroke: rgba(255,255,255,0.1);
+  stroke-width: 0.8;
 }
 
-/* Stars tag background */
-.map-stars-bg {
-  fill: rgba(8, 12, 24, 0.68);
-  stroke: rgba(255,255,255,0.10);
-  stroke-width: 1;
-}
-
-/* District name text */
-.map-label {
-  fill: rgba(238,242,255,0.95);
+.map-name {
+  fill: rgba(225,235,255,0.96);
   font-family: "DM Sans", sans-serif;
   font-size: 9px;
   font-weight: 700;
@@ -741,9 +714,8 @@ button {
   letter-spacing: 0.03em;
 }
 
-/* Stars text */
 .map-stars {
-  fill: #fff;
+  fill: #fbbf24;
   font-family: "DM Sans", sans-serif;
   font-size: 8px;
   font-weight: 700;
@@ -752,17 +724,15 @@ button {
   pointer-events: none;
 }
 
-/* Topic emoji icon */
-.map-topic-icon {
+.map-icon {
   font-size: 13px;
   text-anchor: middle;
   dominant-baseline: middle;
   pointer-events: none;
 }
 
-/* Compass rose */
 .map-compass-n {
-  fill: rgba(200,210,240,0.7);
+  fill: rgba(175,195,230,0.65);
   font-family: "DM Sans", sans-serif;
   font-size: 9px;
   font-weight: 700;
@@ -770,45 +740,36 @@ button {
   dominant-baseline: auto;
 }
 .map-compass-line {
-  stroke: rgba(200,210,240,0.5);
+  stroke: rgba(175,195,230,0.45);
   stroke-width: 1.5;
 }
 
-/* Legend text */
-.map-legend {
-  margin-top: 8px;
-  font-size: 0.78rem;
-}
+.map-legend { margin-top: 8px; font-size: 0.78rem; }
 
-/* Hoverable districts (pointer devices only) */
 @media (hover: hover) and (pointer: fine) {
-  .map-district {
-    cursor: pointer;
-  }
+  .map-district { cursor: pointer; }
   .map-district:hover .map-zone {
-    filter: brightness(1.2);
-    stroke: rgba(255,255,255,0.5);
+    filter: brightness(1.18);
+    stroke: rgba(255,255,255,0.45);
+  }
+  .map-district:hover .map-zone.zone-3 {
+    filter: brightness(1.18) drop-shadow(0 0 10px rgba(230,145,28,0.65));
   }
 }
 
-/* Active tap feedback */
-.map-district:active .map-zone {
-  filter: brightness(1.3);
-}
+.map-district:active .map-zone { filter: brightness(1.28); }
 
-/* Mobile: slightly smaller text */
 @media (max-width: 640px) {
-  .map-label { font-size: 8px; }
+  .map-name  { font-size: 8px; }
   .map-stars { font-size: 7px; }
-  .map-topic-icon { font-size: 11px; }
+  .map-icon  { font-size: 11px; }
 }
 
-/* iPhone SE */
 @media (max-width: 380px) {
-  .map-label { font-size: 7px; }
+  .map-name  { font-size: 7px; }
   .map-stars { font-size: 6px; }
+  .map-icon  { font-size: 10px; }
 }
-
 /* ─── BADGE GRID ─────────────────────────────────────────── */
 .badge-card {
   background: rgba(6, 182, 212, 0.05);
@@ -1400,22 +1361,25 @@ body.theme-light .mission-card {
   border-color: rgba(245, 158, 11, 0.2);
 }
 
-body.theme-light .map-backdrop   { fill: #dde5f2; }
-body.theme-light .map-land       { fill: rgba(210, 218, 238, 0.7); }
-body.theme-light .map-outline    { stroke: rgba(8, 120, 170, 0.9); }
-body.theme-light .map-river      { fill: rgba(100, 160, 220, 0.65); stroke: rgba(60,130,200,0.3); }
-body.theme-light .map-alster     { fill: rgba(80, 145, 210, 0.80); stroke: rgba(50,120,195,0.4); }
-body.theme-light .map-tag-bg     { fill: rgba(255,255,255,0.82); stroke: rgba(0,0,0,0.1); }
-body.theme-light .map-stars-bg   { fill: rgba(255,255,255,0.75); stroke: rgba(0,0,0,0.08); }
-body.theme-light .map-label      { fill: rgba(15, 20, 40, 0.95); }
-body.theme-light .map-stars      { fill: #111827; }
-body.theme-light .map-compass-n  { fill: rgba(30,50,90,0.6); }
-body.theme-light .map-compass-line { stroke: rgba(30,50,90,0.4); }
+body.theme-light .map-ocean  { fill: #d4dff0; }
+body.theme-light .map-land   { fill: rgba(195,210,235,0.75); }
+body.theme-light .map-border { stroke: rgba(8,115,165,0.88); filter: drop-shadow(0 0 4px rgba(8,115,165,0.3)); }
+body.theme-light .map-elbe   { fill: rgba(100,155,215,0.70); stroke: rgba(55,125,200,0.25); }
+body.theme-light .map-alster { fill: rgba(75,140,210,0.82); stroke: rgba(45,115,190,0.35); }
+body.theme-light .map-tag    { fill: rgba(255,255,255,0.84); stroke: rgba(0,0,0,0.09); }
+body.theme-light .map-name   { fill: rgba(12,18,40,0.96); }
+body.theme-light .map-stars  { fill: #b45309; }
+body.theme-light .map-compass-n    { fill: rgba(25,45,90,0.60); }
+body.theme-light .map-compass-line { stroke: rgba(25,45,90,0.40); }
 
-body.theme-light .map-zone.zone-0 { fill: rgba(175,185,210,0.70); }
-body.theme-light .map-zone.zone-1 { fill: rgba(95,145,200,0.75); }
-body.theme-light .map-zone.zone-2 { fill: rgba(35,160,172,0.75); }
-body.theme-light .map-zone.zone-3 { fill: rgba(220,140,30,0.85); stroke: rgba(200,120,0,0.8); }
+body.theme-light .map-zone.zone-0 { fill: rgba(165,178,205,0.72); }
+body.theme-light .map-zone.zone-1 { fill: rgba(85,138,198,0.76); }
+body.theme-light .map-zone.zone-2 { fill: rgba(25,152,162,0.76); }
+body.theme-light .map-zone.zone-3 {
+  fill: rgba(215,135,25,0.86);
+  stroke: rgba(190,115,0,0.80);
+  filter: drop-shadow(0 0 6px rgba(215,135,25,0.4));
+}
 
 /* Badge cards */
 body.theme-light .badge-card {
