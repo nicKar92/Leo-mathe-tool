@@ -12,54 +12,39 @@ const TOPICS = [
 
 const DISTRICT_MAP = {
   fractions: {
-    district: "Hamburg Nord",
-    points: "146,86 230,72 282,92 272,130 208,150 152,132",
-    labelX: 212,
-    labelY: 112,
-    starsX: 212,
-    starsY: 129,
-    iconX: 212,
-    iconY: 98,
+    district:  "Hamburg-Nord",
+    points:    "173,42 227,20 319,42 319,200 173,200",
+    labelX:    246, labelY: 142,
+    starsX:    246, starsY: 160,
+    iconX:     246, iconY:  125,
   },
   percent: {
-    district: "Hamburg West",
-    points: "94,114 154,104 160,150 132,192 90,200 70,160",
-    labelX: 114,
-    labelY: 154,
-    starsX: 114,
-    starsY: 171,
-    iconX: 114,
-    iconY: 140,
+    district:  "Wandsbek",
+    points:    "319,42 411,61 457,113 480,185 480,259 319,259",
+    labelX:    402, labelY: 155,
+    starsX:    402, starsY: 172,
+    iconX:     402, iconY:  138,
   },
   equations: {
-    district: "Hamburg Ost",
-    points: "276,88 344,86 376,122 366,172 318,194 270,154",
-    labelX: 324,
-    labelY: 146,
-    starsX: 324,
-    starsY: 163,
-    iconX: 324,
-    iconY: 132,
+    district:  "Altona",
+    points:    "20,133 58,82 135,41 173,42 173,244 127,234 20,226",
+    labelX:    92,  labelY: 165,
+    starsX:    92,  starsY: 183,
+    iconX:     92,  iconY:  148,
   },
   geometry: {
-    district: "Hamburg Süd",
-    points: "128,206 212,192 282,204 304,256 248,286 168,278 118,242",
-    labelX: 210,
-    labelY: 244,
-    starsX: 210,
-    starsY: 261,
-    iconX: 210,
-    iconY: 230,
+    district:  "Harburg",
+    points:    "20,287 120,302 212,312 280,318 419,330 480,329 442,339 350,380 227,380 120,349 58,287",
+    labelX:    265, labelY: 342,
+    starsX:    265, starsY: 358,
+    iconX:     265, iconY:  326,
   },
   functions: {
-    district: "Hamburg Mitte",
-    points: "170,146 234,136 266,164 250,206 194,214 160,184",
-    labelX: 214,
-    labelY: 176,
-    starsX: 214,
-    starsY: 193,
-    iconX: 214,
-    iconY: 162,
+    district:  "Hamburg-Mitte",
+    points:    "173,200 319,200 319,259 265,255 204,249 173,244",
+    labelX:    246, labelY: 222,
+    starsX:    246, starsY: 238,
+    iconX:     246, iconY:  212,
   },
 };
 
@@ -583,91 +568,120 @@ function renderMissionGrid() {
 }
 
 function renderHamburgMap() {
-  if (!els.hamburgMap) {
-    return;
-  }
+  if (!els.hamburgMap) return;
 
-  const cityOutlinePath = "M90 58 L150 36 L222 28 L286 40 L342 28 L388 56 L418 104 L426 158 L410 206 L420 252 L392 294 L340 310 L280 302 L222 322 L162 312 L116 286 L86 246 L70 196 L66 142 L74 98 Z";
-  const elbePath = "M58 206 C108 190 170 190 222 202 C276 214 334 214 402 200 L402 228 C334 242 274 244 218 230 C166 218 108 218 58 236 Z";
-  const alsterPath = "M194 118 C204 108 220 108 230 117 C240 127 238 143 228 151 C216 160 198 155 192 141 C189 133 190 124 194 118 Z";
-  const canalPath = "M230 152 C228 170 232 182 242 202 C250 218 254 236 252 256 L270 256 C272 236 266 214 258 196 C250 178 248 166 250 151 Z";
-  const gridLines = "M102 98 L374 98 M88 140 L388 140 M88 182 L388 182 M112 226 L364 226 M136 82 L118 274 M188 64 L176 296 M244 58 L242 304 M298 60 L308 298 M348 78 L372 272";
+  // ── Geographic SVG paths ──────────────────────────────────────────
+  // viewBox: 0 0 500 400  (represents Hamburg city-state, lon 9.73–10.33, lat 53.39–53.74)
 
+  const cityPath =
+    "M 20 133 C 28 105 42 90 58 82 C 88 56 115 45 135 41 " +
+    "C 175 26 202 20 227 20 C 262 19 298 28 334 41 " +
+    "C 372 53 398 58 411 61 L 457 113 " +
+    "C 468 148 476 166 480 185 L 480 267 " +
+    "C 476 282 465 316 442 339 C 420 360 380 375 350 380 " +
+    "C 312 387 265 385 227 380 C 184 375 148 363 120 349 " +
+    "C 90 334 68 310 58 287 C 46 265 22 242 20 215 Z";
+
+  const elbePath =
+    "M 20 226 C 55 221 100 228 127 234 C 162 240 192 244 204 246 " +
+    "L 265 246 C 310 252 380 262 442 272 L 480 277 " +
+    "L 480 308 C 440 312 390 322 350 322 " +
+    "C 305 323 250 318 212 308 C 168 298 132 294 90 292 " +
+    "C 62 290 40 289 20 287 Z";
+
+  // ── Build district zone SVG ───────────────────────────────────────
   const districts = TOPICS.map((topic) => {
     const shape = DISTRICT_MAP[topic.id];
-    if (!shape) {
-      return "";
-    }
-    const stars = Math.max(0, Math.min(3, toSafeInt(state.missions[topic.id], 0)));
+    if (!shape) return "";
+
+    const stars    = Math.max(0, Math.min(3, toSafeInt(state.missions[topic.id], 0)));
     const isSelected = selectedTopic === topic.id;
-    const zoneClass = "map-zone zone-" + stars + (isSelected ? " zone-selected" : "");
-    const districtClass = "map-district" + (isSelected ? " selected" : "");
-    const labelWidth = Math.max(88, Math.round(shape.district.length * 6.2 + 18));
-    const labelHeight = 20;
-    const labelX = Math.round(shape.labelX - labelWidth / 2);
-    const labelY = shape.labelY - 13;
-    const starsText = renderStars(stars);
-    const starsWidth = Math.max(46, Math.round(starsText.length * 6.6 + 14));
-    const starsHeight = 16;
-    const starsX = Math.round(shape.starsX - starsWidth / 2);
-    const starsY = shape.starsY - 11;
+    const zoneClass  = "map-zone zone-" + stars + (isSelected ? " zone-selected" : "");
+    const groupClass = "map-district" + (isSelected ? " selected" : "");
+
+    // Name tag background
+    const labelWidth  = Math.max(82, Math.round(shape.district.length * 6.0 + 20));
+    const labelHeight = 19;
+    const tagX = shape.labelX - Math.round(labelWidth / 2);
+    const tagY = shape.labelY - 13;
+
+    // Stars tag background
+    const starsText  = renderStars(stars);
+    const starsWidth = Math.max(44, Math.round(starsText.length * 6.4 + 14));
+    const starsTagX  = shape.starsX - Math.round(starsWidth / 2);
+    const starsTagY  = shape.starsY - 11;
+
     return (
-      "<g class=\"" + districtClass + "\" data-topic=\"" + topic.id + "\" tabindex=\"0\" role=\"button\" aria-label=\"" + shape.district + " wählen (" + topic.label + ")\">" +
+      "<g class=\"" + groupClass + "\" data-topic=\"" + topic.id + "\"" +
+      " tabindex=\"0\" role=\"button\" aria-label=\"" + shape.district + " auswählen (" + topic.label + ")\">" +
       "<polygon class=\"" + zoneClass + "\" points=\"" + shape.points + "\"></polygon>" +
       "<text class=\"map-topic-icon\" x=\"" + shape.iconX + "\" y=\"" + shape.iconY + "\">" + topic.icon + "</text>" +
-      "<rect class=\"map-tag-bg\" x=\"" + labelX + "\" y=\"" + labelY + "\" width=\"" + labelWidth + "\" height=\"" + labelHeight + "\" rx=\"10\"></rect>" +
+      "<rect class=\"map-tag-bg\" x=\"" + tagX + "\" y=\"" + tagY +
+        "\" width=\"" + labelWidth + "\" height=\"" + labelHeight + "\" rx=\"9\"></rect>" +
       "<text class=\"map-label\" x=\"" + shape.labelX + "\" y=\"" + shape.labelY + "\">" + shape.district + "</text>" +
-      "<rect class=\"map-stars-bg\" x=\"" + starsX + "\" y=\"" + starsY + "\" width=\"" + starsWidth + "\" height=\"" + starsHeight + "\" rx=\"8\"></rect>" +
+      "<rect class=\"map-stars-bg\" x=\"" + starsTagX + "\" y=\"" + starsTagY +
+        "\" width=\"" + starsWidth + "\" height=\"16\" rx=\"8\"></rect>" +
       "<text class=\"map-stars\" x=\"" + shape.starsX + "\" y=\"" + shape.starsY + "\">" + starsText + "</text>" +
       "</g>"
     );
   }).join("");
 
   els.hamburgMap.innerHTML =
-    "<svg class=\"hamburg-map\" viewBox=\"0 0 440 330\" role=\"img\" aria-label=\"Hamburg-Zonenkarte mit Eroberungsfortschritt\">" +
+    "<svg class=\"hamburg-map\" viewBox=\"0 0 500 400\" role=\"img\"" +
+    " aria-label=\"Hamburg-Karte mit fünf Bezirken und Sterne-Fortschritt\">" +
+
     "<defs>" +
-    "<clipPath id=\"hamburg-city-clip\">" +
-    "<path d=\"" + cityOutlinePath + "\"></path>" +
+    "<clipPath id=\"hh-clip\">" +
+    "<path d=\"" + cityPath + "\"></path>" +
     "</clipPath>" +
+    "<filter id=\"hh-glow\">" +
+    "<feDropShadow dx=\"0\" dy=\"0\" stdDeviation=\"4\" flood-color=\"rgba(6,182,212,0.5)\"/>" +
+    "</filter>" +
     "</defs>" +
-    "<rect class=\"map-backdrop\" x=\"10\" y=\"10\" width=\"420\" height=\"310\" rx=\"22\"></rect>" +
-    "<path class=\"map-land\" d=\"" + cityOutlinePath + "\"></path>" +
-    "<path class=\"map-grid-lines\" d=\"" + gridLines + "\"></path>" +
-    "<path class=\"map-river\" d=\"" + elbePath + "\"></path>" +
-    "<path class=\"map-river\" d=\"" + alsterPath + "\"></path>" +
-    "<path class=\"map-river\" d=\"" + canalPath + "\"></path>" +
-    "<g clip-path=\"url(#hamburg-city-clip)\">" +
+
+    // Dark ocean/background
+    "<rect class=\"map-backdrop\" x=\"0\" y=\"0\" width=\"500\" height=\"400\" rx=\"0\"></rect>" +
+
+    // City land fill (base)
+    "<path class=\"map-land\" d=\"" + cityPath + "\"></path>" +
+
+    // District zones (clipped to city boundary)
+    "<g clip-path=\"url(#hh-clip)\">" +
     districts +
     "</g>" +
-    "<path class=\"map-outline\" d=\"" + cityOutlinePath + "\"></path>" +
+
+    // Elbe river on top of zones
+    "<path class=\"map-river\" d=\"" + elbePath + "\"></path>" +
+
+    // Außenalster + Binnenalster
+    "<ellipse class=\"map-alster\" cx=\"227\" cy=\"192\" rx=\"18\" ry=\"24\"></ellipse>" +
+    "<ellipse class=\"map-alster\" cx=\"222\" cy=\"220\" rx=\"7\" ry=\"9\"></ellipse>" +
+
+    // City boundary stroke on top (clean edge)
+    "<path class=\"map-outline\" d=\"" + cityPath + "\"></path>" +
+
+    // Compass rose
+    "<g class=\"map-compass\" transform=\"translate(462,38)\">" +
+    "<text class=\"map-compass-n\" x=\"0\" y=\"0\">N</text>" +
+    "<line class=\"map-compass-line\" x1=\"0\" y1=\"4\" x2=\"0\" y2=\"14\"/>" +
+    "</g>" +
+
     "</svg>" +
-    "<p class=\"meta map-legend\">Hamburg-Zonen erobern: Tippe auf Nord, West, Ost, Süd oder Mitte und starte direkt eine Runde.</p>";
+    "<p class=\"meta map-legend\">Lerne alle 5 Bezirke kennen – von Altona bis Harburg. ☆ = noch offen · ★ = erobert</p>";
 
-  els.hamburgMap.querySelectorAll(".map-district").forEach((districtEl) => {
-    const pickTopic = () => {
-      const topicId = districtEl.dataset.topic;
-      if (!topicId) {
-        return;
-      }
-      const topicButton = els.topicGroup.querySelector("[data-topic=\"" + topicId + "\"]");
-      if (!topicButton) {
-        return;
-      }
+  // Attach click handlers so selecting a district also sets the topic chip
+  els.hamburgMap.querySelectorAll(".map-district").forEach((g) => {
+    g.addEventListener("click", () => {
+      const topicId = g.dataset.topic;
+      if (!topicId) return;
       selectedTopic = topicId;
-      setActiveChip(els.topicGroup, topicButton);
+      const chip = document.querySelector("[data-topic='" + topicId + "']");
+      if (chip) setActiveChip(els.topicGroup, chip);
       renderRoundHint();
-      switchTab("spielen");
-      window.setTimeout(() => {
-        els.startBtn.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 60);
-    };
-
-    districtEl.addEventListener("click", pickTopic);
-    districtEl.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        pickTopic();
-      }
+      renderHamburgMap();
+    });
+    g.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); g.click(); }
     });
   });
 }
