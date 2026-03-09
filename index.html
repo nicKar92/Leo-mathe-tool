@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080a12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mathe Quest">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23080a12'/><text y='.9em' font-size='72' x='50%' text-anchor='middle'>🧮</text></svg>">
+  <title>Mathe Quest Hamburg - 8. Klasse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-orb orb-a" aria-hidden="true"></div>
+  <div class="bg-orb orb-b" aria-hidden="true"></div>
+  <div class="bg-orb orb-c" aria-hidden="true"></div>
+
+  <main class="app-shell">
+
+    <!-- ── TAB: SPIELEN ─────────────────────── -->
+    <div id="tab-spielen" class="tab-panel active-tab">
+
+      <header class="hero card">
+        <p class="hero-kicker">Gymnasium Hamburg · Klasse 8</p>
+        <h1>Mathe Quest Hamburg</h1>
+        <p id="player-greeting" class="hero-note">Moin, Mathe-Captain.</p>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Theme wechseln">
+          ☀️ Hell
+        </button>
+      </header>
+
+      <div id="onboarding-hint" class="card onboarding-card hidden">
+        <p>👋 <strong>Willkommen!</strong> Gib deinen Namen ein, wähle ein Thema und starte deine erste Runde. Viel Erfolg!</p>
+      </div>
+
+      <section class="card setup-card">
+        <h2>Neue Runde starten</h2>
+        <p class="setup-title">Thema</p>
+        <div id="topic-group" class="chip-group">
+          <button class="chip active" data-topic="mixed">Gemischt</button>
+          <button class="chip" data-topic="fractions">Brüche</button>
+          <button class="chip" data-topic="percent">Prozent</button>
+          <button class="chip" data-topic="equations">Gleichungen</button>
+          <button class="chip" data-topic="geometry">Geometrie</button>
+          <button class="chip" data-topic="functions">Funktionen</button>
+        </div>
+        <p class="setup-title">Modus</p>
+        <div id="mode-group" class="chip-group">
+          <button class="chip active" data-mode="challenge">Challenge (10 Fragen)</button>
+          <button class="chip" data-mode="timed">Zeitjagd (90 Sek.)</button>
+          <button class="chip" data-mode="boss">Bosskampf (3 Leben)</button>
+        </div>
+        <div class="setup-actions">
+          <button id="start-btn" class="btn btn-primary">Runde starten</button>
+          <button id="daily-btn" class="btn btn-secondary">Tages-Challenge</button>
+        </div>
+        <p id="round-hint" class="meta">Wähl ein Thema und einen Modus.</p>
+      </section>
+
+      <section id="game-panel" class="card game-card hidden">
+        <div class="game-head">
+          <p id="round-title" class="round-title">Challenge</p>
+          <p id="round-progress" class="round-progress">Frage 1/10</p>
+        </div>
+        <div class="meter">
+          <div id="meter-fill" class="meter-fill"></div>
+        </div>
+        <p id="timer" class="timer">--</p>
+        <h2 id="question-text" class="question-text">Frage wird geladen ...</h2>
+        <div id="option-grid" class="option-grid"></div>
+        <div class="game-actions">
+          <button id="hint-btn" class="btn btn-secondary">Joker-Tipp</button>
+          <button id="skip-btn" class="btn btn-secondary">Frage tauschen</button>
+          <button id="quit-btn" class="btn btn-ghost">Runde beenden</button>
+        </div>
+        <p id="feedback" class="feedback"></p>
+      </section>
+
+      <section id="summary-panel" class="card hidden">
+        <h2>Runde abgeschlossen</h2>
+        <p id="summary-main" class="summary-main"></p>
+        <div id="summary-details" class="summary-details"></div>
+        <button id="play-again" class="btn btn-primary">Neue Runde spielen</button>
+      </section>
+
+    </div>
+
+    <!-- ── TAB: STATS ────────────────────────── -->
+    <div id="tab-stats" class="tab-panel">
+
+      <section class="card profile-card">
+        <h2>Spielprofil</h2>
+        <div class="profile-grid">
+          <label>
+            Name
+            <input id="player-name" type="text" maxlength="24"
+              placeholder="z. B. Lina"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="words"
+              spellcheck="false"
+              enterkeyhint="done">
+          </label>
+          <label>
+            Tagesziel (XP)
+            <select id="daily-goal">
+              <option value="60">60 XP</option>
+              <option value="90" selected>90 XP</option>
+              <option value="120">120 XP</option>
+              <option value="150">150 XP</option>
+            </select>
+          </label>
+        </div>
+        <div class="profile-actions">
+          <button id="save-profile" class="btn btn-secondary">Profil speichern</button>
+          <button id="reset-btn" class="btn btn-ghost">Zurücksetzen</button>
+          <p id="profile-status" class="meta"></p>
+        </div>
+        <div id="reset-confirm" class="reset-confirm hidden">
+          <p class="meta">Wirklich alle Fortschritte löschen? Das kann nicht rückgängig gemacht werden.</p>
+          <div class="reset-actions">
+            <button id="reset-confirm-yes" class="btn btn-primary">Ja, zurücksetzen</button>
+            <button id="reset-confirm-no" class="btn btn-secondary">Abbrechen</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-grid">
+        <article class="card stat-card">
+          <p class="stat-label">Level</p>
+          <p id="stat-level" class="stat-value">1</p>
+        </article>
+        <article class="card stat-card">
+          <p class="stat-label">XP</p>
+          <p id="stat-xp" class="stat-value">0</p>
+        </article>
+        <article class="card stat-card">
+          <p class="stat-label">Punkte</p>
+          <p id="stat-points" class="stat-value">0</p>
+        </article>
+        <article class="card stat-card">
+          <p class="stat-label">Lernserie</p>
+          <p id="stat-streak" class="stat-value">0 Tage</p>
+        </article>
+        <article class="card stat-card">
+          <p class="stat-label">Trefferquote</p>
+          <p id="stat-accuracy" class="stat-value">0 %</p>
+        </article>
+        <article class="card stat-card">
+          <p class="stat-label">Münzen</p>
+          <p id="stat-coins" class="stat-value">0</p>
+        </article>
+      </section>
+
+      <section class="card progress-card">
+        <div class="progress-row">
+          <span class="progress-label" id="xp-progress-label">XP-Fortschritt</span>
+          <div class="progress-bar-track">
+            <div id="xp-bar" class="progress-bar-fill xp-fill"></div>
+          </div>
+        </div>
+        <div class="progress-row">
+          <span class="progress-label" id="daily-progress-label">Tagesziel</span>
+          <div class="progress-bar-track">
+            <div id="daily-bar" class="progress-bar-fill daily-fill"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Badges</h2>
+        <div id="badge-grid" class="badge-grid"></div>
+      </section>
+
+    </div>
+
+    <!-- ── TAB: KARTE ────────────────────────── -->
+    <div id="tab-karte" class="tab-panel">
+
+      <section class="card">
+        <h2>Hamburg-Nord Missionskarte</h2>
+        <p class="meta">Sammle Sterne in bekannten Stadtteilen aus dem Norden.</p>
+        <div id="hamburg-map" class="hamburg-map-wrap"></div>
+        <div id="mission-grid" class="mission-grid"></div>
+      </section>
+
+    </div>
+
+    <!-- ── TAB: SHOP ─────────────────────────── -->
+    <div id="tab-shop" class="tab-panel">
+
+      <section class="card">
+        <h2>🛒 Münzen-Shop</h2>
+        <p class="meta" id="shop-coins-label">Deine Münzen: 0</p>
+        <div id="shop-grid" class="shop-grid"></div>
+        <p id="shop-status" class="meta"></p>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- ── BOTTOM TAB BAR ───────────────────── -->
+  <nav class="bottom-nav" role="navigation" aria-label="Hauptnavigation">
+    <button class="nav-tab active-nav" data-tab="spielen" aria-label="Spielen">
+      <span class="nav-icon">🎮</span>
+      <span class="nav-label">Spielen</span>
+    </button>
+    <button class="nav-tab" data-tab="stats" aria-label="Stats">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">Stats</span>
+    </button>
+    <button class="nav-tab" data-tab="karte" aria-label="Karte">
+      <span class="nav-icon">🗺️</span>
+      <span class="nav-label">Karte</span>
+    </button>
+    <button class="nav-tab" data-tab="shop" aria-label="Shop">
+      <span class="nav-icon">🛒</span>
+      <span class="nav-label">Shop</span>
+    </button>
+  </nav>
+
+  <div id="badge-toast" class="badge-toast hidden" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
