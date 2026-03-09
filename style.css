@@ -642,10 +642,11 @@ button {
 
 .hamburg-map-wrap {
   margin: 8px 0 12px;
-  padding: 8px;
+  padding: 10px;
   border-radius: var(--radius-md);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(22, 28, 48, 0.9), rgba(10, 14, 27, 0.96));
+  border: 1px solid rgba(139, 152, 188, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 14px 30px rgba(0, 0, 0, 0.35);
 }
 
 .hamburg-map {
@@ -654,23 +655,36 @@ button {
   display: block;
   border-radius: var(--radius-md);
   border: 1px solid var(--card-border);
-  background: radial-gradient(circle at 52% 26%, rgba(124, 58, 237, 0.12), rgba(255, 255, 255, 0.02) 62%);
+  background: radial-gradient(circle at 50% 22%, rgba(124, 58, 237, 0.24), rgba(8, 12, 24, 0.95) 64%);
+}
+
+.map-backdrop {
+  fill: rgba(8, 11, 21, 0.88);
+  stroke: rgba(148, 163, 210, 0.2);
+  stroke-width: 1.6;
 }
 
 .map-land {
-  fill: rgba(23, 28, 46, 0.95);
+  fill: rgba(24, 31, 53, 0.96);
 }
 
 .map-outline {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.22);
-  stroke-width: 2;
+  stroke: rgba(212, 223, 255, 0.36);
+  stroke-width: 2.5;
 }
 
 .map-river {
-  fill: rgba(120, 166, 220, 0.35);
-  stroke: rgba(159, 214, 255, 0.32);
-  stroke-width: 1.2;
+  fill: rgba(93, 162, 235, 0.34);
+  stroke: rgba(164, 213, 255, 0.5);
+  stroke-width: 1.4;
+}
+
+.map-grid-lines {
+  fill: none;
+  stroke: rgba(206, 217, 255, 0.12);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
 }
 
 .map-district {
@@ -679,60 +693,90 @@ button {
 }
 
 .map-zone {
-  stroke: rgba(255, 255, 255, 0.2);
-  stroke-width: 2;
-  transition: fill 180ms ease, stroke 180ms ease, filter 180ms ease;
+  stroke: rgba(239, 246, 255, 0.24);
+  stroke-width: 2.1;
+  transition: fill 160ms ease, stroke 160ms ease, filter 160ms ease, transform 160ms ease;
+  transform-origin: center;
 }
 
 .map-zone.zone-0 {
-  fill: rgba(89, 96, 122, 0.68);
+  fill: rgba(82, 90, 122, 0.78);
 }
 
 .map-zone.zone-1 {
-  fill: rgba(87, 126, 182, 0.82);
+  fill: rgba(72, 111, 173, 0.86);
 }
 
 .map-zone.zone-2 {
-  fill: rgba(34, 177, 195, 0.84);
+  fill: rgba(29, 169, 188, 0.9);
 }
 
 .map-zone.zone-3 {
-  fill: rgba(245, 158, 11, 0.88);
-  stroke: rgba(245, 200, 97, 0.98);
+  fill: rgba(245, 157, 35, 0.92);
+  stroke: rgba(247, 203, 106, 0.98);
+  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.32));
+}
+
+.map-zone.zone-selected {
+  stroke: rgba(255, 255, 255, 0.95);
+  filter: brightness(1.16);
+}
+
+.map-district.selected .map-tag-bg {
+  fill: rgba(124, 58, 237, 0.86);
+  stroke: rgba(198, 170, 255, 0.86);
+}
+
+.map-district.selected .map-stars-bg {
+  fill: rgba(12, 45, 69, 0.95);
+  stroke: rgba(125, 238, 255, 0.72);
 }
 
 .map-district:focus-visible .map-zone {
-  stroke: rgba(255, 255, 255, 0.86);
-  filter: brightness(1.13);
+  stroke: rgba(255, 255, 255, 0.98);
+  filter: brightness(1.16);
 }
 
 .map-district:active .map-zone {
-  filter: brightness(1.12);
+  filter: brightness(1.13);
+}
+
+.map-topic-icon {
+  font-size: 12px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+.map-tag-bg {
+  fill: rgba(14, 18, 34, 0.86);
+  stroke: rgba(222, 233, 255, 0.28);
+  stroke-width: 1;
+}
+
+.map-stars-bg {
+  fill: rgba(11, 27, 44, 0.9);
+  stroke: rgba(115, 228, 255, 0.56);
+  stroke-width: 1;
 }
 
 .map-label {
-  fill: var(--ink);
+  fill: #f5f8ff;
   font-family: "DM Sans", sans-serif;
-  font-size: 8.2px;
+  font-size: 8.5px;
   font-weight: 700;
   text-anchor: middle;
   dominant-baseline: middle;
-  paint-order: stroke;
-  stroke: rgba(8, 10, 18, 0.72);
-  stroke-width: 2.2px;
   letter-spacing: 0.01em;
   pointer-events: none;
 }
 
 .map-stars {
-  fill: #fff;
+  fill: #f8fafc;
   font-family: "DM Sans", sans-serif;
-  font-size: 7.3px;
+  font-size: 7.2px;
   font-weight: 700;
   text-anchor: middle;
-  paint-order: stroke;
-  stroke: rgba(8, 10, 18, 0.72);
-  stroke-width: 1.8px;
   pointer-events: none;
 }
 
@@ -1031,6 +1075,10 @@ button {
 
   .map-stars {
     font-size: 6px;
+  }
+
+  .map-topic-icon {
+    font-size: 10px;
   }
 }
 
@@ -1339,56 +1387,79 @@ body.theme-light .mission-card {
 }
 
 body.theme-light .hamburg-map {
-  background: rgba(255, 255, 255, 0.88);
+  background: radial-gradient(circle at 50% 22%, rgba(124, 58, 237, 0.12), rgba(255, 255, 255, 0.94) 64%);
   border-color: rgba(0, 0, 0, 0.12);
 }
 
 body.theme-light .hamburg-map-wrap {
-  background: linear-gradient(180deg, rgba(124, 58, 237, 0.06), rgba(0, 0, 0, 0.01));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(243, 246, 255, 0.96));
   border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 10px 24px rgba(13, 17, 31, 0.08);
+}
+
+body.theme-light .map-backdrop {
+  fill: rgba(247, 249, 255, 0.94);
+  stroke: rgba(0, 0, 0, 0.12);
 }
 
 body.theme-light .map-land {
-  fill: rgba(231, 236, 245, 0.98);
+  fill: rgba(232, 237, 248, 0.98);
 }
 
 body.theme-light .map-outline {
-  stroke: rgba(0, 0, 0, 0.22);
+  stroke: rgba(17, 24, 39, 0.32);
 }
 
 body.theme-light .map-river {
-  fill: rgba(196, 220, 245, 0.9);
-  stroke: rgba(88, 145, 201, 0.48);
+  fill: rgba(184, 213, 246, 0.92);
+  stroke: rgba(66, 128, 188, 0.5);
+}
+
+body.theme-light .map-grid-lines {
+  stroke: rgba(17, 24, 39, 0.12);
 }
 
 body.theme-light .map-zone {
-  stroke: rgba(0, 0, 0, 0.2);
+  stroke: rgba(0, 0, 0, 0.22);
 }
 
 body.theme-light .map-zone.zone-0 {
-  fill: rgba(159, 170, 195, 0.85);
+  fill: rgba(150, 162, 190, 0.86);
 }
 
 body.theme-light .map-zone.zone-1 {
-  fill: rgba(111, 148, 199, 0.86);
+  fill: rgba(95, 134, 191, 0.9);
 }
 
 body.theme-light .map-zone.zone-2 {
-  fill: rgba(56, 173, 186, 0.88);
+  fill: rgba(43, 164, 178, 0.9);
 }
 
 body.theme-light .map-zone.zone-3 {
-  fill: rgba(228, 151, 51, 0.85);
+  fill: rgba(218, 144, 48, 0.9);
+}
+
+body.theme-light .map-district.selected .map-tag-bg {
+  fill: rgba(124, 58, 237, 0.92);
+  stroke: rgba(109, 40, 217, 0.95);
+}
+
+body.theme-light .map-tag-bg {
+  fill: rgba(255, 255, 255, 0.92);
+  stroke: rgba(0, 0, 0, 0.2);
+}
+
+body.theme-light .map-stars-bg {
+  fill: rgba(235, 248, 255, 0.95);
+  stroke: rgba(8, 145, 178, 0.42);
 }
 
 body.theme-light .map-label {
   fill: #111827;
-  stroke: rgba(255, 255, 255, 0.85);
 }
 
 body.theme-light .map-stars {
   fill: #0b1220;
-  stroke: rgba(255, 255, 255, 0.82);
 }
 
 /* Badge cards */
