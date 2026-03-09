@@ -11,11 +11,46 @@ const TOPICS = [
 ];
 
 const DISTRICT_MAP = {
-  fractions: { district: "Wellingsbüttel", points: "44,34 118,24 134,66 86,88 36,66", x: 87, y: 52 },
-  percent: { district: "Poppenbüttel", points: "128,24 228,20 248,66 178,86 134,66", x: 188, y: 50 },
-  equations: { district: "Sasel", points: "118,74 186,84 214,138 152,158 96,122", x: 153, y: 114 },
-  geometry: { district: "Bramfeld", points: "24,78 86,92 108,146 54,166 18,130", x: 58, y: 124 },
-  functions: { district: "Farmsen-Berne", points: "186,86 264,72 282,132 226,170 170,148", x: 229, y: 121 },
+  fractions: {
+    district: "Wellingsbüttel",
+    points: "142,94 204,82 224,116 198,144 142,136 126,114",
+    labelX: 174,
+    labelY: 112,
+    starsX: 174,
+    starsY: 127,
+  },
+  percent: {
+    district: "Poppenbüttel",
+    points: "214,76 284,70 314,104 296,140 236,132 214,102",
+    labelX: 264,
+    labelY: 102,
+    starsX: 264,
+    starsY: 117,
+  },
+  equations: {
+    district: "Sasel",
+    points: "306,88 362,96 378,136 346,164 300,152 288,120",
+    labelX: 335,
+    labelY: 123,
+    starsX: 335,
+    starsY: 138,
+  },
+  geometry: {
+    district: "Bramfeld",
+    points: "108,144 178,150 196,196 152,228 98,214 82,174",
+    labelX: 140,
+    labelY: 182,
+    starsX: 140,
+    starsY: 197,
+  },
+  functions: {
+    district: "Farmsen-Berne",
+    points: "202,144 286,144 318,188 286,234 210,228 188,184",
+    labelX: 252,
+    labelY: 184,
+    starsX: 252,
+    starsY: 199,
+  },
 };
 
 const MODE_CONFIG = {
@@ -542,6 +577,11 @@ function renderHamburgMap() {
     return;
   }
 
+  const cityOutlinePath = "M88 66 L136 42 L196 34 L246 48 L300 36 L360 54 L406 90 L430 146 L418 192 L434 240 L414 286 L356 308 L288 302 L238 316 L182 310 L126 292 L88 254 L66 208 L58 150 L70 102 Z";
+  const elbePath = "M56 214 C108 204 168 208 224 220 C278 232 332 236 402 226 L402 248 C338 260 276 258 220 246 C166 234 110 232 56 242 Z";
+  const alsterPath = "M208 112 C221 103 236 105 244 116 C252 128 246 142 234 147 C220 152 206 143 205 130 C204 122 206 116 208 112 Z";
+  const canalPath = "M228 146 C224 165 226 180 234 200 C240 216 246 232 244 250 L262 250 C264 230 256 208 250 192 C244 176 244 161 248 145 Z";
+
   const districts = TOPICS.map((topic) => {
     const shape = DISTRICT_MAP[topic.id];
     if (!shape) {
@@ -549,20 +589,59 @@ function renderHamburgMap() {
     }
     const stars = Math.max(0, Math.min(3, toSafeInt(state.missions[topic.id], 0)));
     return (
-      "<g class=\"map-district\">" +
+      "<g class=\"map-district\" data-topic=\"" + topic.id + "\" tabindex=\"0\" role=\"button\" aria-label=\"" + shape.district + " öffnen\">" +
       "<polygon class=\"map-zone zone-" + stars + "\" points=\"" + shape.points + "\"></polygon>" +
-      "<text class=\"map-label\" x=\"" + shape.x + "\" y=\"" + shape.y + "\">" + shape.district + "</text>" +
-      "<text class=\"map-stars\" x=\"" + shape.x + "\" y=\"" + (shape.y + 12) + "\">" + renderStars(stars) + "</text>" +
+      "<text class=\"map-label\" x=\"" + shape.labelX + "\" y=\"" + shape.labelY + "\">" + shape.district + "</text>" +
+      "<text class=\"map-stars\" x=\"" + shape.starsX + "\" y=\"" + shape.starsY + "\">" + renderStars(stars) + "</text>" +
       "</g>"
     );
   }).join("");
 
   els.hamburgMap.innerHTML =
-    "<svg class=\"hamburg-map\" viewBox=\"0 0 300 190\" role=\"img\" aria-label=\"Hamburg-Nord Karte mit eroberten Stadtteilen\">" +
-    "<rect class=\"map-water\" x=\"8\" y=\"8\" width=\"284\" height=\"174\" rx=\"18\"></rect>" +
+    "<svg class=\"hamburg-map\" viewBox=\"0 0 460 340\" role=\"img\" aria-label=\"Hamburg-Karte mit eroberten Stadtteilen\">" +
+    "<defs>" +
+    "<clipPath id=\"hamburg-city-clip\">" +
+    "<path d=\"" + cityOutlinePath + "\"></path>" +
+    "</clipPath>" +
+    "</defs>" +
+    "<path class=\"map-land\" d=\"" + cityOutlinePath + "\"></path>" +
+    "<path class=\"map-river\" d=\"" + elbePath + "\"></path>" +
+    "<path class=\"map-river\" d=\"" + alsterPath + "\"></path>" +
+    "<path class=\"map-river\" d=\"" + canalPath + "\"></path>" +
+    "<g clip-path=\"url(#hamburg-city-clip)\">" +
     districts +
+    "</g>" +
+    "<path class=\"map-outline\" d=\"" + cityOutlinePath + "\"></path>" +
     "</svg>" +
-    "<p class=\"meta map-legend\">Jeder Stadtteil wird mit deinen Sternen erobert: ☆☆☆ bis ★★★</p>";
+    "<p class=\"meta map-legend\">Tippe auf einen Stadtteil: Thema wird vorgewählt. Eroberung: ☆☆☆ bis ★★★</p>";
+
+  els.hamburgMap.querySelectorAll(".map-district").forEach((districtEl) => {
+    const pickTopic = () => {
+      const topicId = districtEl.dataset.topic;
+      if (!topicId) {
+        return;
+      }
+      const topicButton = els.topicGroup.querySelector("[data-topic=\"" + topicId + "\"]");
+      if (!topicButton) {
+        return;
+      }
+      selectedTopic = topicId;
+      setActiveChip(els.topicGroup, topicButton);
+      renderRoundHint();
+      switchTab("spielen");
+      window.setTimeout(() => {
+        els.startBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 60);
+    };
+
+    districtEl.addEventListener("click", pickTopic);
+    districtEl.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        pickTopic();
+      }
+    });
+  });
 }
 
 function renderBadgeGrid() {

@@ -642,6 +642,10 @@ button {
 
 .hamburg-map-wrap {
   margin: 8px 0 12px;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .hamburg-map {
@@ -650,52 +654,85 @@ button {
   display: block;
   border-radius: var(--radius-md);
   border: 1px solid var(--card-border);
-  background: rgba(255, 255, 255, 0.03);
+  background: radial-gradient(circle at 52% 26%, rgba(124, 58, 237, 0.12), rgba(255, 255, 255, 0.02) 62%);
 }
 
-.map-water {
-  fill: rgba(10, 14, 28, 0.65);
+.map-land {
+  fill: rgba(23, 28, 46, 0.95);
+}
+
+.map-outline {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 2;
+}
+
+.map-river {
+  fill: rgba(120, 166, 220, 0.35);
+  stroke: rgba(159, 214, 255, 0.32);
+  stroke-width: 1.2;
+}
+
+.map-district {
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .map-zone {
-  stroke: rgba(255, 255, 255, 0.22);
+  stroke: rgba(255, 255, 255, 0.2);
   stroke-width: 2;
-  transition: fill 200ms ease, stroke 200ms ease;
+  transition: fill 180ms ease, stroke 180ms ease, filter 180ms ease;
 }
 
 .map-zone.zone-0 {
-  fill: rgba(73, 80, 102, 0.65);
+  fill: rgba(89, 96, 122, 0.68);
 }
 
 .map-zone.zone-1 {
-  fill: rgba(80, 123, 173, 0.78);
+  fill: rgba(87, 126, 182, 0.82);
 }
 
 .map-zone.zone-2 {
-  fill: rgba(34, 177, 195, 0.78);
+  fill: rgba(34, 177, 195, 0.84);
 }
 
 .map-zone.zone-3 {
-  fill: rgba(245, 158, 11, 0.82);
-  stroke: rgba(245, 200, 97, 0.95);
+  fill: rgba(245, 158, 11, 0.88);
+  stroke: rgba(245, 200, 97, 0.98);
+}
+
+.map-district:focus-visible .map-zone {
+  stroke: rgba(255, 255, 255, 0.86);
+  filter: brightness(1.13);
+}
+
+.map-district:active .map-zone {
+  filter: brightness(1.12);
 }
 
 .map-label {
   fill: var(--ink);
   font-family: "DM Sans", sans-serif;
-  font-size: 8px;
+  font-size: 8.2px;
   font-weight: 700;
   text-anchor: middle;
   dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: rgba(8, 10, 18, 0.72);
+  stroke-width: 2.2px;
+  letter-spacing: 0.01em;
   pointer-events: none;
 }
 
 .map-stars {
   fill: #fff;
   font-family: "DM Sans", sans-serif;
-  font-size: 7px;
+  font-size: 7.3px;
   font-weight: 700;
   text-anchor: middle;
+  paint-order: stroke;
+  stroke: rgba(8, 10, 18, 0.72);
+  stroke-width: 1.8px;
   pointer-events: none;
 }
 
@@ -1306,24 +1343,38 @@ body.theme-light .hamburg-map {
   border-color: rgba(0, 0, 0, 0.12);
 }
 
-body.theme-light .map-water {
-  fill: rgba(229, 235, 246, 0.95);
+body.theme-light .hamburg-map-wrap {
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.06), rgba(0, 0, 0, 0.01));
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.theme-light .map-land {
+  fill: rgba(231, 236, 245, 0.98);
+}
+
+body.theme-light .map-outline {
+  stroke: rgba(0, 0, 0, 0.22);
+}
+
+body.theme-light .map-river {
+  fill: rgba(196, 220, 245, 0.9);
+  stroke: rgba(88, 145, 201, 0.48);
 }
 
 body.theme-light .map-zone {
-  stroke: rgba(0, 0, 0, 0.18);
+  stroke: rgba(0, 0, 0, 0.2);
 }
 
 body.theme-light .map-zone.zone-0 {
-  fill: rgba(164, 173, 196, 0.75);
+  fill: rgba(159, 170, 195, 0.85);
 }
 
 body.theme-light .map-zone.zone-1 {
-  fill: rgba(116, 149, 199, 0.78);
+  fill: rgba(111, 148, 199, 0.86);
 }
 
 body.theme-light .map-zone.zone-2 {
-  fill: rgba(47, 169, 180, 0.78);
+  fill: rgba(56, 173, 186, 0.88);
 }
 
 body.theme-light .map-zone.zone-3 {
@@ -1332,10 +1383,12 @@ body.theme-light .map-zone.zone-3 {
 
 body.theme-light .map-label {
   fill: #111827;
+  stroke: rgba(255, 255, 255, 0.85);
 }
 
 body.theme-light .map-stars {
-  fill: #ffffff;
+  fill: #0b1220;
+  stroke: rgba(255, 255, 255, 0.82);
 }
 
 /* Badge cards */
@@ -1490,6 +1543,11 @@ body.theme-light .theme-toggle-btn {
     transform: translateY(-2px);
   }
 
+  .map-district:hover .map-zone {
+    stroke: rgba(255, 255, 255, 0.78);
+    filter: brightness(1.09);
+  }
+
   body.theme-light .card:hover {
     border-color: rgba(124, 58, 237, 0.2);
   }
@@ -1514,6 +1572,10 @@ body.theme-light .theme-toggle-btn {
     background: rgba(124, 58, 237, 0.06);
     border-color: rgba(124, 58, 237, 0.4);
     box-shadow: 0 4px 14px var(--accent-glow);
+  }
+
+  body.theme-light .map-district:hover .map-zone {
+    stroke: rgba(99, 102, 241, 0.5);
   }
 
   .theme-toggle-btn:hover {
