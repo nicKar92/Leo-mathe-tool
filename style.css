@@ -1178,7 +1178,13 @@ body.theme-light .card {
   background: var(--card-bg);
   border-color: var(--card-border);
   box-shadow: var(--shadow-card);
-  backdrop-filter: blur(8px);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  body.theme-light .card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }
 
 /* Hero */
@@ -1413,7 +1419,13 @@ body.theme-light .meter {
   transition: background 160ms ease,
               border-color 160ms ease,
               color 160ms ease;
-  backdrop-filter: blur(8px);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .theme-toggle-btn {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }
 
 body.theme-light .theme-toggle-btn {
